@@ -150,6 +150,8 @@ public static class _Module
 		Custom.rainWorld.Shaders["MurkyWaterLightSource"] = FShader.CreateShader("MurkyWaterLightSource", bundle.LoadAsset<Shader>("Assets/Shaders/MurkyWaterLightSource.shader"));
 		Custom.rainWorld.Shaders["MurkyWaterSaveMask"] = FShader.CreateShader("MurkyWaterSaveMask", bundle.LoadAsset<Shader>("Assets/Shaders/MurkyWaterSaveMask.shader"));
 
+		Custom.rainWorld.Shaders["Inverted"] = FShader.CreateShader("Inverted", bundle.LoadAsset<Shader>("Assets/Shaders/InvertedColor.shader"));
+
 		Shader.SetGlobalColor("_InputColorMoss", Color.green); // maybe todo: replace implementation with TriangleMeshUVs
 	}
 
