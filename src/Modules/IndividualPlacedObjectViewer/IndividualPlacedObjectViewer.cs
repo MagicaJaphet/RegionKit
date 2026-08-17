@@ -2,6 +2,7 @@
 using DevInterface;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using RegionKit.Modules.DevUIMisc;
 
 namespace RegionKit.Modules.IndividualPlacedObjectViewer;
 
@@ -33,7 +34,7 @@ internal static partial class IndividualPlacedObjectViewer
 	{
 		orig(self, owner, IDstring, parentNode, name);
 
-		self.subNodes.Add(new Button(owner, "Switch_Mode_Button", self, new Vector2(180f, 710f), 95f, "Switch mode"));
+		self.subNodes.Add(new Button(owner, "Switch_Mode_Button", self, new Vector2(180f, DevUIUtils.__switchPageButtonY), 95f, "Switch mode"));
 	}
 
 	private static void ObjectsPage_Signal(On.DevInterface.ObjectsPage.orig_Signal orig, ObjectsPage self, DevUISignalType type, DevUINode sender, string message)

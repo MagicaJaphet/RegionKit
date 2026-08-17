@@ -176,7 +176,13 @@ public class StringControl : DevUILabel
 	}
 	public static bool TextIsColor(string value)
 	{
-		try { Color color = hexToColor(value); return colorToHex(color) == value; }
+		try { Color color = hexToColor(value.ToUpperInvariant()); return colorToHex(color) == value.ToUpperInvariant(); }
+		catch { return false; }
+	}
+	public static bool TextIsColorWithAlpha(string value)
+	{
+		bool alpha = value.Length == 8;
+		try { Color color = alpha ? hexToColorWithAlpha(value.ToUpperInvariant()) : hexToColor(value.ToUpperInvariant()); return alpha ? colorToHexWithAlpha(color) == value.ToUpperInvariant() : colorToHex(color) == value.ToUpperInvariant(); }
 		catch { return false; }
 	}
 

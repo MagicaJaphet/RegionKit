@@ -16,6 +16,8 @@ global using static RegionKit.Extras.RngTools;
 global using static RegionKit.Extras.PrimitivesTools;
 global using static RegionKit.Extras.RainWorldTools;
 global using static RegionKit.Extras.LanguageHacks;
+global using static RegionKit.Extras.ColorTools;
+global using static RegionKit.Extras.InputTools;
 global using static RWCustom.Custom;
 
 using System.Diagnostics.CodeAnalysis;

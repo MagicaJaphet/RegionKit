@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
-using System.Globalization;
-using FadePalette = RoomSettings.FadePalette;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
 using DevInterface;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using RegionKit.Modules.PaletteEditor;
+using FadePalette = RoomSettings.FadePalette;
 
 namespace RegionKit.Modules.Misc;
 
@@ -68,7 +69,13 @@ internal static class MoreFadePalettes
 		if (index < 0) throw new IndexOutOfRangeException("Palette index below zero");
 		if (rs.AllFadePalettes().Count > index && index >= 0)
 		{
-			rs.AllFadePalettes().RemoveAt(index);
+			rs.AllFadePalettes().RemoveAt(index); 
+			
+			// Palette Editor
+			if (Editor.MoreFadePalettes.Count > index)
+			{
+				Editor.MoreFadePalettes.RemoveAt(index);
+			}
 		}
 		LogMessage($"removing at index {index}, count is now {rs.AllFadePalettes().Count()}");
 	}
@@ -116,6 +123,11 @@ internal static class MoreFadePalettes
 			Texture2D moreTex = null!;
 			self.LoadPalette(fade.palette, ref moreTex);
 			self.MoreFadeTextures()[fade] = moreTex;
+
+			// Palette Editor
+			int i = newFades.IndexOf(fade);
+			if (Editor.MoreFadePalettes.Count <= i) Editor.MoreFadePalettes.Add(new(i + 2));
+			Editor.MoreFadePalettes[i].Texture = moreTex;
 		}
 		self.ApplyFade();
 	}

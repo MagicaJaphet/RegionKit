@@ -179,9 +179,28 @@ public static class RainWorldTools
 		return pos.x > rect.left && pos.x < rect.right && pos.y > rect.bottom && pos.y < rect.top;
 	}
 
-	public static HSLColor HSL(this Color color)
+	/// <summary>
+	/// Allows faster access to the bottom-left corner of an <see cref="FSprite"/>, which in turn allows for the relative positioning of other elements to be calculated easier.
+	/// </summary>
+	/// <param name="sprite"></param>
+	/// <returns></returns>
+	public static Vector2 GetBottomLeftPos(this FSprite sprite)
 	{
-		Vector3 v = Custom.RGB2HSL(color);
-		return new HSLColor(v.x, v.y, v.z);
+		Vector2 anchor = new(sprite.anchorX, sprite.anchorY);
+		Vector2 scale = new(sprite.width, sprite.height);
+		return sprite.GetPosition() - (scale * anchor);
+	}
+
+	/// <summary>
+	/// Does not account for <see cref="Menu.Remix.MixedUI.OpScrollBox"/> behaviors. Returns if the raw mouse position is currently over the sprite regardless of depth.
+	/// </summary>
+	public static bool MouseOver(this FSprite sprite)
+	{
+		if (!sprite.isVisible) return false;
+
+		Vector2 mousePos = Futile.mousePosition;
+		Vector2 bottomLeft = sprite.GetBottomLeftPos();
+		return mousePos.x > bottomLeft.x && mousePos.x < bottomLeft.x + sprite.width
+			&& mousePos.y > bottomLeft.y && mousePos.y < bottomLeft.y + sprite.height;
 	}
 }

@@ -5,6 +5,11 @@ namespace RegionKit.Modules.DevUIMisc;
 
 internal static class DevUIUtils
 {
+	/// <summary>
+	/// A consistent height that matches the offset between each button on the X axis.
+	/// </summary>
+	internal const float __switchPageButtonY = 705f;
+
 	public static class UPath
 	{
 		public static bool TryCropToSubstringLeft(string path, string directory, out string output)

@@ -1,6 +1,7 @@
 ﻿using DevInterface;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using RegionKit.Modules.DevUIMisc.GenericNodes;
 
 namespace RegionKit.Modules.DevUIMisc;
 
@@ -24,6 +25,8 @@ public static class _Module
 
 		// bugfix
 		IL.DevInterface.DevUINode.Update += DevUINode_Update;
+
+		LoadShaders();
 	}
 
 	internal static void Disable()
@@ -59,5 +62,17 @@ public static class _Module
 		c.Emit(OpCodes.Ldloc_0); // I'm expecting this local variable index not to change in future updates
 		c.EmitDelegate((DevUINode self, int i) => i >= self.subNodes.Count);
 		c.Emit(OpCodes.Brtrue, brTo);
+	}
+
+	private static void LoadShaders()
+	{
+		AssetBundle bundle = AssetBundle.LoadFromFile(AssetManager.ResolveFilePath("assets/regionkit/rk_devuimisc"));
+
+		// Color Picker generic node
+		Custom.rainWorld.Shaders["Inverted"] = FShader.CreateShader("Inverted", bundle.LoadAsset<Shader>("Assets/Shaders/InvertedColor.shader"));
+		Custom.rainWorld.Shaders["ColorPicker"] = FShader.CreateShader("ColorPicker", bundle.LoadAsset<Shader>("Assets/Shaders/ColorPicker.shader"));
+
+		Shader.SetGlobalFloat("_HueCircleInner", ColorPicker.__HueCircleInner);
+		Shader.SetGlobalFloat("_SVSquareSize", ColorPicker.__SVSquareSize);
 	}
 }

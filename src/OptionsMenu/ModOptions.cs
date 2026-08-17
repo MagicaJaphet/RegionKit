@@ -37,11 +37,36 @@ public sealed class ModOptions : OptionsTemplate
 		"When checked, makes the fade palette panel paged. Turn off if it is causing issues with other mods.", null, "",
 		"Paged Fade Palettes?"));
 
+	// PaletteEditor-specific Configs
+
+	public static Configurable<int> UndoStack { get; } = Instance.config.Bind(nameof(UndoStack), 30, new ConfigurableInfo(
+		"The number of undos avaliable per loaded palette.",
+		null, "", "Undo Stack"));
+
+	public static Configurable<bool> LoadSavedPalettes { get; } = Instance.config.Bind(nameof(LoadSavedPalettes), true, new ConfigurableInfo(
+		"Whether the game should prioritize any saved palettes when loading a palette file.",
+		null, "", "Prioritize Saved Palettes?"));
+
+	public static Configurable<float> PaletteImageScale { get; } = Instance.config.Bind(nameof(PaletteImageScale), 10f, new ConfigurableInfo(
+		"The size of the editing palette.",
+		null, "", "Image Scale"));
+
+	public static Configurable<bool> ShowKeyLines { get; } = Instance.config.Bind(nameof(ShowKeyLines), true, new ConfigurableInfo(
+		"Whether the palette key will have the main key lines ontop for distinction.",
+		null, "", "Show Key Lines?"));
+
+	public static Configurable<bool> ShowKeyToolTip { get; } = Instance.config.Bind(nameof(ShowKeyToolTip), true, new ConfigurableInfo(
+		"Whether to show what value is being currently hovered.",
+		null, "", "Show Key ToolTip?"));
+
+	public static Configurable<bool> ShowUnusedKeyXs { get; } = Instance.config.Bind(nameof(ShowUnusedKeyXs), true, new ConfigurableInfo(
+		"Whether to show what keys are not in use.",
+		null, "", "Use Xs for Unused Keys?"));
 
 
 	// MENU
 
-	public const int TAB_COUNT = 3;
+	public const int TAB_COUNT = 4;
 	private const int TB_INDEX = 2;
 
     public override void Initialize()
@@ -55,12 +80,15 @@ public sealed class ModOptions : OptionsTemplate
 		InitCredits(ref tabIndex);
 		Tabs[TB_INDEX] = new TurboBakerTab(this);
 		(Tabs[TB_INDEX] as TurboBakerTab)!.Initialize();
+		Tabs[TB_INDEX + 1] = new PaletteEditorTab(this);
+		(Tabs[TB_INDEX + 1] as PaletteEditorTab)!.Initialize();
 	}
 
 	public override void Update()
 	{
 		base.Update();
 		(Tabs[TB_INDEX] as TurboBakerTab)!.Update();
+		(Tabs[TB_INDEX + 1] as PaletteEditorTab)!.Update();
 	}
 
 
